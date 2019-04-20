@@ -9,18 +9,14 @@
 
     // Compatibility shim
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-    var peer, ice;
+    var peer, ice = {
+iceServers: [{   urls: [ "stun:ss-turn2.xirsys.com" ]}, {   username: "Uf1V-eVf32ElaFwL60I3fDB96naJKjBGSnFdXTrovxR3R4rQRcXy1AqcRuRBpqwLAAAAAFy6xjdldHVpdG9y",   credential: "91f01b06-633b-11e9-83e8-322c48b34491",   urls: [       "turn:ss-turn2.xirsys.com:80?transport=udp",       "turn:ss-turn2.xirsys.com:3478?transport=udp",       "turn:ss-turn2.xirsys.com:80?transport=tcp",       "turn:ss-turn2.xirsys.com:3478?transport=tcp",       "turns:ss-turn2.xirsys.com:443?transport=tcp",       "turns:ss-turn2.xirsys.com:5349?transport=tcp"   ]}]
+};
 
     $(function(){
         // Get Xirsys ICE (STUN/TURN)
         if(!ice){
-            ice = new $xirsys.ice('/webrtc');
-            ice.on(ice.onICEList, function (evt){
-                console.log('onICE ',evt);
-                if(evt.type == ice.onICEList){
-                    create(ice.iceServers);
-                }
-            });
+		create(ice.iceServers);
         }
     });
 
