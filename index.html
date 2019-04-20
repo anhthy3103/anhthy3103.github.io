@@ -8,6 +8,7 @@
     <script>
 
         // Compatibility shim
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
         var peer, ice;
 
         $(function () {
