@@ -37,7 +37,8 @@
                 host: '0.peerjs.com',
                 port: 443,
                 secure: true,
-                debug: 3
+                debug: 3,
+                config: ice.iceServers
             });
 
             peer.on('open', function () {
@@ -88,7 +89,7 @@
             // Get audio/video stream
             navigator.getUserMedia({ audio: true, video: true }, function (stream) {
                 // Set your video displays
-                $('#my-video').prop('src', URL.createObjectURL(stream));
+                $('#my-video').prop('srcObject', stream);
 
                 window.localStream = stream;
                 step2();
@@ -108,7 +109,7 @@
 
             // Wait for stream on the call, then set peer video display
             call.on('stream', function (stream) {
-                $('#their-video').prop('src', URL.createObjectURL(stream));
+                $('#their-video').prop('srcObject', stream);
             });
 
             // UI stuff
