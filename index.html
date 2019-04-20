@@ -9,15 +9,24 @@
 
         // Compatibility shim
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-        var peer;
-        var ice = {
-            iceServers: [{ urls: ["stun:ss-turn2.xirsys.com"] }, { username: "Uf1V-eVf32ElaFwL60I3fDB96naJKjBGSnFdXTrovxR3R4rQRcXy1AqcRuRBpqwLAAAAAFy6xjdldHVpdG9y", credential: "91f01b06-633b-11e9-83e8-322c48b34491", urls: ["turn:ss-turn2.xirsys.com:80?transport=udp", "turn:ss-turn2.xirsys.com:3478?transport=udp", "turn:ss-turn2.xirsys.com:80?transport=tcp", "turn:ss-turn2.xirsys.com:3478?transport=tcp", "turns:ss-turn2.xirsys.com:443?transport=tcp", "turns:ss-turn2.xirsys.com:5349?transport=tcp"] }]
-        };
+        var peer, ice;
 
         $(function () {
             // Get Xirsys ICE (STUN/TURN)
             if (!ice) {
-                create(ice.iceServers);
+                window.onload = function () {
+                    let xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = function ($evt) {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            ice = JSON.parse(xhr.responseText)['v'];
+                            create(JSON.parse(xhr.responseText)['v'].iceServers);
+                        }
+                    }
+                    xhr.open("PUT", "https://global.xirsys.net/_turn/etuitor.herokuapp.com", true);
+                    xhr.setRequestHeader("Authorization", "Basic " + btoa("etuitor:46433da8-5f41-11e9-9aa7-0242ac110003"));
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                    xhr.send(JSON.stringify({ "format": "urls" }));
+                };
             }
         });
 
