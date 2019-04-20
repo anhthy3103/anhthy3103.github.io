@@ -15,19 +15,17 @@
         $(function () {
             // Get Xirsys ICE (STUN/TURN)
             if (!ice) {
-                window.onload = function () {
-                    let xhr = new XMLHttpRequest();
-                    xhr.onreadystatechange = function ($evt) {
-                        if (xhr.readyState == 4 && xhr.status == 200) {
-                            ice = JSON.parse(xhr.responseText)['v'];
-                            create(JSON.parse(xhr.responseText)['v'].iceServers);
-                        }
+                let xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function ($evt) {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        ice = JSON.parse(xhr.responseText)['v'];
+                        create(JSON.parse(xhr.responseText)['v']);
                     }
-                    xhr.open("PUT", "https://global.xirsys.net/_turn/etuitor.herokuapp.com", true);
-                    xhr.setRequestHeader("Authorization", "Basic " + btoa("etuitor:46433da8-5f41-11e9-9aa7-0242ac110003"));
-                    xhr.setRequestHeader("Content-Type", "application/json");
-                    xhr.send(JSON.stringify({ "format": "urls" }));
-                };
+                }
+                xhr.open("PUT", "https://global.xirsys.net/_turn/etuitor.herokuapp.com", true);
+                xhr.setRequestHeader("Authorization", "Basic " + btoa("etuitor:46433da8-5f41-11e9-9aa7-0242ac110003"));
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.send(JSON.stringify({ "format": "urls" }));
             }
         });
 
