@@ -8,7 +8,6 @@
     <script>
 
         // Compatibility shim
-        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
         var peer, ice;
 
         $(function () {
@@ -73,7 +72,7 @@
 
         function step1() {
             // Get audio/video stream
-            navigator.getUserMedia({ audio: true, video: true }, function (stream) {
+            navigator.mediaDevices.getUserMedia({ audio: true, video: true }, function (stream) {
                 // Set your video displays
                 $('#my-video').prop('srcObject', stream);
 
